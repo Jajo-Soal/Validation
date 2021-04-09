@@ -78,6 +78,9 @@ Unfortunately, the datum is unknown and is not provided by BODC. Therefore, tide
 
 One may resort to the python package _Pytides_ to predict tide data, allow for observed data to be de-tided, and observed surge data to be compared to Clawpack simulation output for surge data.
 
-_Pytides_ may be installed from its source: https://github.com/sam-cox/pytides
-However, source files are not compatible with Python 3, and Python 2 installation not recommended. Therefore, modifications to the _import_ code is required. 
-Alternatively, one can clone this modified package adjusted to work with Python 3.7 and above: https://github.com/yudevan/pytides.
+_Pytides_ may be installed from its source: https://github.com/sam-cox/pytides                                         
+However, source files are not compatible with Python 3, and Python 2 installation not recommended.                    Therefore, modifications to the _import_ code is required.          
+
+Alternatively, one can clone this modified package adjusted to work with Python 3.7 and above: https://github.com/yudevan/pytides
+
+
