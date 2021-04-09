@@ -8,7 +8,6 @@ CLAWMAKE = $(CLAW)/clawutil/src/Makefile.common
 #   make .help
 # at the unix prompt.
 
-
 # Adjust these variables if desired:
 # ----------------------------------
 
