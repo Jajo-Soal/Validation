@@ -126,7 +126,7 @@ regions.append([1,3,rundata.clawdata.t0, rundata.clawdata.tfinal, -30.0, -12.0, 
 Storm surges obtained from Clawpack were consistent. Comparing Clawpack output to observed data, storm surges were a good model of a real-world storm surge. 
 More analysis and refinements may lead to more accurate results. 
 
-Working through this example has been challenging but fun!
+For any questions on the specifics of this example, contact Jonathan Socoy (js5587@columbia.edu)
 
 
 
