@@ -108,6 +108,10 @@ https://www.dropbox.com/s/1h3xa4d8al9fiuz/Clawpack_Surge_Comparisons.pdf?dl=0
 In each case, discrepencies may be due to insuffient refinements in simulation. 
 A more powerful machine may provide more accurate forecast models to storm surge simulations. The tidal predictions may have been slightly off too within unknown datum for observed data from BODC. 
 
+## Conclusion: 
+Storm surges obtained from Clawpack were consistent. Comparing Clawpack output to observed data, storm surges were a good model of a real-world storm surge. 
+More analysis and refinements may lead to more accurate results. 
+
 ----------------------------------------------------------------------------------------
 
 Final remarks: 
@@ -119,12 +123,9 @@ amrdata.amr_levels_max = 6
 And refinement ratios may be specified in _setrun.py_ too as in this example:
 ```sh
 regions.append([1,3,rundata.clawdata.t0, rundata.clawdata.tfinal, -30.0, -12.0, 30.0, 72.0])
-
 ```
 
-## Conclusion: 
-Storm surges obtained from Clawpack were consistent. Comparing Clawpack output to observed data, storm surges were a good model of a real-world storm surge. 
-More analysis and refinements may lead to more accurate results. 
+----------------------------------------------------------------------------------------
 
 For any questions on the specifics of this example, contact Jonathan Socoy (js5587@columbia.edu).
 
