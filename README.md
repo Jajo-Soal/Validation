@@ -1,3 +1,5 @@
+
+
 # Hurricane Ophelia Storm Report 
 
 This example contains the data and setup for running a storm surge forecast for Hurricane Ophelia. 
@@ -82,5 +84,52 @@ _Pytides_ may be installed from its source: https://github.com/sam-cox/pytides
 However, source files are not compatible with Python 3, and Python 2 installation not recommended.                    Therefore, modifications to the _import_ code is required.          
 
 Alternatively, one can clone this modified package adjusted to work with Python 3.7 and above: https://github.com/yudevan/pytides
+
+After obtaining tide predictions from pytides, de-tide observed data from BODC and save surge data as a text file.
+
+In this example, Clawpack gauge data was downloaded after simulation was complete and using python scripts, Clawpack output and observed data were compared by observing their plots. 
+
+If working with NOAA database and US-based storms, one may obtain observed data from NOAA's database and modify _setplot.py_ to compare surge data within Clawpack 
+
+## Data Results: 
+In this example, 
+
+Portrush station in Northern Ireland experienced a storm surge of approximately .486 m.  Clawpack prediction was approximately the same. Time of surge is slightly off.
+
+Tobermory station in Scotland experienced a storm surge of approximately .75 m. Clawpack prediction was approximately .62 m. Time of surge aligns. 
+
+Ullapool station in Scotland experienced a storm surge of approximately .680 m. Clawpack prediction was approximately .63 m. Time of surge is slightly off.
+
+Kinlochbervie station in Scotland experienced a storm surge of approximately .29 m. Clawpack prediction was approximately .52 m. Time of surge aligns.
+
+Comparisons can be observed here:
+https://www.dropbox.com/s/1h3xa4d8al9fiuz/Clawpack_Surge_Comparisons.pdf?dl=0
+
+In each case, discrepencies may be due to insuffient refinements in simulation. 
+A more powerful machine may provide more accurate forecast models to storm surge simulations. The tidal predictions may have been slightly off too within unknown datum for observed data from BODC. 
+
+----------------------------------------------------------------------------------------
+
+Final remarks: 
+_setrun.py_ may be modified to have higher levels of refinement as in this example:
+```sh
+# max number of refinement levels:
+amrdata.amr_levels_max = 6  
+```
+And refinement ratios may be specified in _setrun.py_ too as in this example:
+```sh
+regions.append([1,3,rundata.clawdata.t0, rundata.clawdata.tfinal, -30.0, -12.0, 30.0, 72.0])
+
+```
+
+## Conclusion: 
+Storm surges obtained from Clawpack were consistent. Comparing Clawpack output to observed data, storm surges were a good model of a real-world storm surge. 
+More analysis and refinements may lead to more accurate results. 
+
+Working through this example has been challenging but fun!
+
+
+
+
 
 
