@@ -102,7 +102,7 @@ Ullapool station in Scotland experienced a storm surge of approximately .680 m. 
 
 Kinlochbervie station in Scotland experienced a storm surge of approximately .29 m. Clawpack prediction was approximately .52 m. Time of surge aligns.
 
-Comparisons can be observed here:
+Comparisons for surge data can be found here:
 https://www.dropbox.com/s/1h3xa4d8al9fiuz/Clawpack_Surge_Comparisons.pdf?dl=0
 
 In each case, discrepencies may be due to insuffient refinements in simulation. 
@@ -126,7 +126,7 @@ regions.append([1,3,rundata.clawdata.t0, rundata.clawdata.tfinal, -30.0, -12.0, 
 Storm surges obtained from Clawpack were consistent. Comparing Clawpack output to observed data, storm surges were a good model of a real-world storm surge. 
 More analysis and refinements may lead to more accurate results. 
 
-For any questions on the specifics of this example, contact Jonathan Socoy (js5587@columbia.edu)
+For any questions on the specifics of this example, contact Jonathan Socoy (js5587@columbia.edu).
 
 
 
