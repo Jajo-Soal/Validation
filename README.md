@@ -58,7 +58,7 @@ Download topography data, add file to desired folder, but set the correct path f
 
 _NETCDF type also works but may need to convert to .tt3 file to be compatible with GeoClaw._
 
-## GeoClaw results 
+## GeoClaw results:
 Simulation ran from 2 days before landfall, 14 October, to 2 days 12 hours after landfall, 18 October. 
 
 Gauges were selected from the British Oceanography Data Centre (BODC): https://www.bodc.ac.uk/data/hosted_data_systems/sea_level/uk_tide_gauge_network/
