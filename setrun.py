@@ -1,3 +1,12 @@
+# encoding: utf-8
+"""
+Module to set up run time parameters for Clawpack.
+
+The values set in the function setrun are then written out to data files
+that will be read in by the Fortran code.
+
+"""
+
 from __future__ import absolute_import
 from __future__ import print_function
 
@@ -5,7 +14,6 @@ import os
 import datetime
 import shutil
 import gzip
-
 import numpy as np
 
 from clawpack.geoclaw.surge.storm import Storm
@@ -16,13 +24,23 @@ import clawpack.clawutil as clawutil
 def days2seconds(days):
     return days * 60.0**2 * 24.0
 
-
 # Scratch directory for storing topo and dtopo files:
 scratch_dir = os.path.join(os.environ["CLAW"], 'geoclaw', 'scratch')
 
 
 # ------------------------------
 def setrun(claw_pkg='geoclaw'):
+    
+    """
+    Define the parameters used for running Clawpack.
+    
+    INPUT:
+        claw_pkg expected to be "geoclaw" for this setrun.
+        
+    OUTPUT:
+        rundata - object of class ClawRunData
+        
+    """
 
     from clawpack.clawutil import data
 
@@ -49,10 +67,10 @@ def setrun(claw_pkg='geoclaw'):
 
     # Lower and upper edge of computational domain:
     clawdata.lower[0] = -30.0      # west longitude
-    clawdata.upper[0] = 10.0      # east longitude
+    clawdata.upper[0] = 10.0       # east longitude
 
     clawdata.lower[1] = 30.0       # south latitude
-    clawdata.upper[1] = 70.0        # north latitude
+    clawdata.upper[1] = 70.0       # north latitude
 
     # Number of grid cells:
     degree_factor = 4 # (0.25º,0.25º) ~ (25237.5 m, 27693.2 m) resolution
@@ -138,8 +156,8 @@ def setrun(claw_pkg='geoclaw'):
 
     # Initial time step for variable dt.
     # If dt_variable==0 then dt=dt_initial for all steps:
-    clawdata.dt_initial = 0.016                                       ################.005########################
-
+    clawdata.dt_initial = 0.016                                      
+    
     # Max time step to be allowed if variable dt used:
     clawdata.dt_max = 1e+99
 
@@ -149,7 +167,7 @@ def setrun(claw_pkg='geoclaw'):
     clawdata.cfl_max = 1.0
 
     # Maximum number of time steps to allow between output times:
-    clawdata.steps_max = 50000                                       #############8500#####################
+    clawdata.steps_max = 10000                                     
 
     # ------------------
     # Method to be used:
@@ -238,7 +256,7 @@ def setrun(claw_pkg='geoclaw'):
     amrdata = rundata.amrdata
 
     # max number of refinement levels:
-    amrdata.amr_levels_max = 6                               ##############################
+    amrdata.amr_levels_max = 6                 
 
     # List of refinement ratios at each level (length at least mxnest-1)
     amrdata.refinement_ratios_x = [2, 2, 2, 6, 16]
@@ -286,22 +304,26 @@ def setrun(claw_pkg='geoclaw'):
 
     # == setregions.data values ==
     regions = rundata.regiondata.regions
+    
+    # to specify regions of refinement append lines of the form
+    #  [minlevel,maxlevel,t1,t2,x1,x2,y1,y2]
     regions.append([1,3,rundata.clawdata.t0, rundata.clawdata.tfinal, -30.0, -12.0, 30.0, 72.0])
     regions.append([4,6,rundata.clawdata.t0, rundata.clawdata.tfinal,-6.70, -6.60, 55.0, 55.8])
     regions.append([4,6,rundata.clawdata.t0,rundata.clawdata.tfinal,-6.10,-6.00,56.4,56.8])
     regions.append([4,6,rundata.clawdata.t0,rundata.clawdata.tfinal,-5.35,-5.28,57.6,58.15])
     regions.append([4,6,rundata.clawdata.t0,rundata.clawdata.tfinal,-5.07,-5.01,58.2,58.6])
     
-    # to specify regions of refinement append lines of the form
-    #  [minlevel,maxlevel,t1,t2,x1,x2,y1,y2]
     
-    # Gauges for Ophelia     58.456917, -5.049330
+    # ------------------------------------------ Gauges for Ophelia ----------------------------------------
     # Portrush:
     rundata.gaugedata.gauges.append([1, -6.657948, 55.206390, rundata.clawdata.t0, rundata.clawdata.tfinal])
+    
     # Tobermory
     rundata.gaugedata.gauges.append([2, -6.054373, 56.626536, rundata.clawdata.t0, rundata.clawdata.tfinal])
+    
     # Ullapool
     rundata.gaugedata.gauges.append([3, -5.312055, 57.951235, rundata.clawdata.t0, rundata.clawdata.tfinal])
+    
     # Kinlochbervie
     rundata.gaugedata.gauges.append([4, -5.049330, 58.456917, rundata.clawdata.t0, rundata.clawdata.tfinal])
    
@@ -357,18 +379,16 @@ def setgeo(rundata):
     # == settopo.data values ==
     topo_data = rundata.topo_data
     topo_data.topofiles = []
-    # for topography, append lines of the form
-    #   [topotype, minlevel, maxlevel, t1, t2, fname]
-    # See regions for control over these regions, need better bathy data for
-    # the smaller domains
-    topo_path = os.path.join("/Users/jonathansocoy/clawpack_src/clawpack-v5.8.0/geoclaw/topo", "topo2.asc")
+    # for topography, append lines of the form:[topotype, minlevel, maxlevel, t1, t2, fname]
+    # See regions for control over these regions, need better bathy data for the smaller domains
+    # !!!!!!!!!!!!!!!!NEED TO MODIFY PATH HERE IF TESTING EXAMPLE!!!!!!!!!!!!!
+    topo_path = os.path.join("/home/socoyjonathan/clawpack_src/clawpack-v5.7.1/geoclaw/topograpy", "topography.asc") 
     topo_data.topofiles.append([3, 1, 5, rundata.clawdata.t0, rundata.clawdata.tfinal, topo_path])
 
     # == setfixedgrids.data values ==
     rundata.fixed_grid_data.fixedgrids = []
     # for fixed grids append lines of the form
-    # [t1,t2,noutput,x1,x2,y1,y2,xpoints,ypoints,\
-    #  ioutarrivaltimes,ioutsurfacemax]
+    # [t1,t2,noutput,x1,x2,y1,y2,xpoints,ypoints,ioutarrivaltimes,ioutsurfacemax]
 
     # ================
     #  Set Surge Data
@@ -402,6 +422,7 @@ def setgeo(rundata):
     ophelia = Storm(path=atcf_path, file_format="ATCF")
 
     # Calculate landfall time - Need to specify as the file above does not
+    # Ophelia landfall: 10/16/2017 ~ 1100 UTC
     ophelia.time_offset = datetime.datetime(2017, 10, 16, 11)
 
     ophelia.write(data.storm_file, file_format='geoclaw')
