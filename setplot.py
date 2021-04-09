@@ -1,3 +1,4 @@
+
 from __future__ import absolute_import
 from __future__ import print_function
 
@@ -49,8 +50,7 @@ def setplot(plotdata=None):
 
     # Set afteraxes function
     def surge_afteraxes(cd):
-        surgeplot.surge_afteraxes(cd, track, plot_direction=False,
-                                             kwargs={"markersize": 5})
+        surgeplot.surge_afteraxes(cd, track, plot_direction=False, kwargs={"markersize": 5})
 
      # Color limits
     surface_limits = [-5.0, 5.0]
@@ -66,11 +66,11 @@ def setplot(plotdata=None):
     #   Plot specifications
     # ==========================================================================
     regions = {"Atlantic": {"xlimits": (clawdata.lower[0], clawdata.upper[0]),
-                        "ylimits": (clawdata.lower[1], clawdata.upper[1]),
-                        "figsize": (6.4, 4.8)},
-                       "United Kingdom": {"xlimits": (-10.5, 0),
-                           "ylimits": (51.5, 60.0),
-                            "figsize": (8, 6)}}
+                            "ylimits": (clawdata.lower[1], clawdata.upper[1]),
+                            "figsize": (6.4, 4.8)},
+               "United Kingdom": {"xlimits": (-10.5, 0),
+                                  "ylimits": (51.5, 60.0),
+                                  "figsize": (8, 6)}}
 
     for (name, region_dict) in regions.items():
 
@@ -101,6 +101,7 @@ def setplot(plotdata=None):
         surgeplot.add_land(plotaxes)
         plotaxes.plotitem_dict['speed'].amr_patchedges_show = [0] * 10
         plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
+        
     #
     # Friction field
     #
@@ -156,45 +157,42 @@ def setplot(plotdata=None):
 
     # Set up for axes in this figure:
     plotaxes = plotfigure.new_plotaxes()
-#    plotaxes.xlimits = [-2, 2]
+    plotaxes.xlimits = [-2, 2]
     # plotaxes.xlabel = "Days from landfall"
     # plotaxes.ylabel = "Surface (m)"
     plotaxes.ylimits = [-.25, .75]
     plotaxes.title = 'Surface'
     
-    
-    def get_actual_water_levels(gaugeno):
-    
-        heights = open("surge_"+str(gaugeno)+".txt", "r")
-        surge = []
-        for height in heights:
-            line = height.strip()
-            line = line.split(",")
-            line = float(line[0])
-            surge.append(line) 
-            
-        t = np.arange(-172800, 172800, 3600, dtype='float')
-        
-        return t, surge
+    # -------- Failed attempt at comparing data on Clawpack ----------
+    #def get_actual_water_levels(gaugeno):
+    #    heights = open("surge_"+str(gaugeno)+".txt", "r")
+    #    surge = []
+    #    for height in heights:
+    #        line = height.strip()
+    #        line = line.split(",")
+    #        line = float(line[0])
+    #        surge.append(line) 
+    #
+    #    t = np.arange(-172800, 172800, 3600, dtype='float')
+    #    
+    #    return t, surge
     
     def gauge_afteraxes(cd):
 
         axes = plt.gca()
         surgeplot.plot_landfall_gauge(cd.gaugesoln, axes)
-
         
-        t, surge = get_actual_water_levels(cd.gaugeno)
-        axes.plot(t, surge, color="g", label="Observed")
+        #t, surge = get_actual_water_levels(cd.gaugeno)
+        #axes.plot(t, surge, color="g", label="Observed")
        
-
         # Fix up plot - in particular fix time labels
         axes.set_title('Station %s' % cd.gaugeno)
         axes.set_xlabel('Days relative to landfall')
         axes.set_ylabel('Surface (m)')
-        #axes.set_xlim([-2, 2])
+        axes.set_xlim([-2, 2])
         axes.set_ylim([-.25, .75])
-       # axes.set_xticks([-2, -1, 0, 1, 2])
-        #axes.set_xticklabels([r"$-2$", r"$-1$", r"$0$", r"$1$", r"$2$"])
+        axes.set_xticks([-2, -1, 0, 1, 2])
+        axes.set_xticklabels([r"$-2$", r"$-1$", r"$0$", r"$1$", r"$2$"])
         axes.grid(True)
         
     plotaxes.afteraxes = gauge_afteraxes
@@ -206,56 +204,52 @@ def setplot(plotdata=None):
     
     
     
-        #
-    #  Gauge Location Plot
     #
-    
-    
-#    def gauge_location_afteraxes(cd):
-#        plt.subplots_adjust(left=0.12, bottom=0.06, right=0.97, top=0.97)
-#        surge_afteraxes(cd)
-#        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos='all',
-#                                        format_string='ko', add_labels=True)
-#
-#    plotfigure = plotdata.new_plotfigure(name="Gauge Locations")
-#    plotfigure.show = True
-#
-#    # Set up for axes in this figure:
-#    plotaxes = plotfigure.new_plotaxes()
-#    plotaxes.title = 'Gauge Locations'
-#    plotaxes.scaled = True
-#    plotaxes.xlimits = [-7.0, -4.8]
-#    plotaxes.ylimits = [55.0, 58.2]
-#    plotaxes.afteraxes = gauge_location_afteraxes
-#    surgeplot.add_surface_elevation(plotaxes, bounds=surface_limits)
-#    surgeplot.add_land(plotaxes)
-#    plotaxes.plotitem_dict['surface'].amr_patchedges_show = [0] * 10
-#    plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
+    # Gauge Location Plot
+    #
+   
+    # --------- For only one plot for location of all four gauges, uncomment -------
+    # def gauge_location_afteraxes(cd):
+    #     plt.subplots_adjust(left=0.12, bottom=0.06, right=0.97, top=0.97)
+    #     surge_afteraxes(cd)
+    #     gaugetools.plot_gauge_locations(cd.plotdata, gaugenos='all',
+    #                                     format_string='ko', add_labels=True)
+    #    
+    # plotfigure = plotdata.new_plotfigure(name="Gauge Locations")
+    # plotfigure.show = True
+    #  
+    # # Set up for axes in this figure:
+    # plotaxes = plotfigure.new_plotaxes()
+    # plotaxes.title = 'Gauge Locations'
+    # plotaxes.scaled = True
+    # plotaxes.xlimits = [-7.0, -4.8]
+    # plotaxes.ylimits = [55.0, 58.2]
+    # plotaxes.afteraxes = gauge_location_afteraxes
+    # surgeplot.add_surface_elevation(plotaxes, bounds=surface_limits)
+    # surgeplot.add_land(plotaxes)
+    # plotaxes.plotitem_dict['surface'].amr_patchedges_show = [0] * 10
+    # plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
 
-    
+    # individual gauge plots
     def gauge_1_afteraxes(cd):
         plt.subplots_adjust(left=0.12, bottom=0.06, right=0.97, top=0.97)
         surge_afteraxes(cd)
-        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[1],
-                                        format_string='ko', add_labels=True)
+        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[1], format_string='ko', add_labels=True)
 
     def gauge_2_afteraxes(cd):
         plt.subplots_adjust(left=0.12, bottom=0.06, right=0.97, top=0.97)
         surge_afteraxes(cd)
-        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[2],
-                                        format_string='ko', add_labels=True)
+        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[2], format_string='ko', add_labels=True)
 
     def gauge_3_afteraxes(cd):
         plt.subplots_adjust(left=0.12, bottom=0.06, right=0.97, top=0.97)
         surge_afteraxes(cd)
-        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[3],
-                                        format_string='ko', add_labels=True)
+        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[3], format_string='ko', add_labels=True)
 
     def gauge_4_afteraxes(cd):
         plt.subplots_adjust(left=0.12, bottom=0.06, right=0.97, top=0.97)
         surge_afteraxes(cd)
-        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[4],
-                                        format_string='ko', add_labels=True)
+        gaugetools.plot_gauge_locations(cd.plotdata, gaugenos=[4], format_string='ko', add_labels=True)
         
         
     plotfigure = plotdata.new_plotfigure(name="Gauge 1")
@@ -273,7 +267,6 @@ def setplot(plotdata=None):
     plotaxes.plotitem_dict['surface'].amr_patchedges_show = [0] * 10
     plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
 
-
     plotfigure = plotdata.new_plotfigure(name="Gauge 2")
     plotfigure.show = True
 
@@ -288,7 +281,6 @@ def setplot(plotdata=None):
     surgeplot.add_land(plotaxes)
     plotaxes.plotitem_dict['surface'].amr_patchedges_show = [0] * 10
     plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
-
 
     plotfigure = plotdata.new_plotfigure(name="Gauge 3")
     plotfigure.show = True
@@ -305,8 +297,6 @@ def setplot(plotdata=None):
     plotaxes.plotitem_dict['surface'].amr_patchedges_show = [0] * 10
     plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
 
-
-
     plotfigure = plotdata.new_plotfigure(name="Gauge 4")
     plotfigure.show = True
 
@@ -321,10 +311,6 @@ def setplot(plotdata=None):
     surgeplot.add_land(plotaxes)
     plotaxes.plotitem_dict['surface'].amr_patchedges_show = [0] * 10
     plotaxes.plotitem_dict['land'].amr_patchedges_show = [0] * 10
-    
-    
-    
-    
 
     # -----------------------------------------
     # Parameters used only when creating html and/or latex hardcopy
